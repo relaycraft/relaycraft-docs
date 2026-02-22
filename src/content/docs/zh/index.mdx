@@ -1,0 +1,58 @@
+---
+title: RelayCraft 文档
+description: 下一代 AI 原生网络流量调试、抓包与拦截分析工具文档。
+template: splash 
+hero:
+  tagline: 下一代 AI 原生网络流量调试工具，让调试更高效、更智能。
+  image:
+    file: ../../../assets/logo.svg
+  actions:
+    - text: 快速开始
+      link: /zh/start-here/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: 查看核心概念
+      link: /zh/start-here/core-concepts/
+      icon: open-book
+      variant: secondary
+    - text: 访问官网主页
+      link: https://www.relaycraft.dev/zh
+      icon: external
+      variant: minimal
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import FeatureCard from '../../../components/FeatureCard.astro';
+
+## 探索核心功能
+
+<CardGrid>
+	<FeatureCard 
+		title="流量监控" 
+		description="了解如何零延迟地检查 HTTP、HTTPS 和 WebSocket 流量，并进行丰富的分析。"
+		link="/zh/core-features/traffic-monitor/"
+		icon="monitor"
+		text="查看文档"
+	/>
+	<FeatureCard 
+		title="规则引擎" 
+		description="掌握可视化规则构建器，动态进行本地映射 (Map Local)、响应模拟 (Mock) 和流量重写 (Rewrite)。"
+		link="/zh/core-features/rules-engine/"
+		icon="rules"
+		text="查看文档"
+	/>
+	<FeatureCard 
+		title="AI 助手" 
+		description="利用内置 AI 能力，使用自然语言进行流量过滤、分析并生成拦截脚本。"
+		link="/zh/core-features/ai-assistant/"
+		icon="ai"
+		text="查看文档"
+	/>
+	<FeatureCard 
+		title="高级脚本" 
+		description="借助灵活的插件生态系统，使用 Python 编写你的自定义流量拦截与处理器。"
+		link="/zh/advanced-usage/python-scripting/"
+		icon="scripting"
+		text="探索 API"
+	/>
+</CardGrid>

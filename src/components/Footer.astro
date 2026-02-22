@@ -1,0 +1,36 @@
+---
+import Default from '@astrojs/starlight/components/Footer.astro';
+import type { Props } from '@astrojs/starlight/props';
+
+const { lang } = Astro.props;
+const isZh = lang === 'zh';
+
+const textCrafted = isZh ? 'RelayCraft 团队用心打造 ❤️。' : 'RelayCraft Team. Crafted with ❤️.';
+---
+
+<Default {...Astro.props} />
+
+<footer class="relaycraft-footer">
+	<div class="footer-inner">
+		<p>© {new Date().getFullYear()} {textCrafted}</p>
+	</div>
+</footer>
+
+<style>
+.relaycraft-footer {
+    border-top: 1px solid var(--sl-color-border);
+    margin-top: 4rem;
+    padding: 2rem 0;
+}
+
+.footer-inner {
+    max-width: var(--sl-content-width);
+    margin: 0 auto;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--sl-color-gray-4);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+</style>

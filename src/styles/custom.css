@@ -1,0 +1,247 @@
+/* src/styles/custom.css */
+
+/* Local JetBrains Mono Font Definitions */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Local Inter Font Definitions */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+    --sl-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    --sl-font-mono: "JetBrains Mono", "Fira Code", "Roboto Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Dark mode colors - Matching RelayCraft Main Site (Premium Dark) */
+:root[data-theme='dark'] {
+    /* Backgrounds */
+    --sl-color-black: #000000;
+    --sl-color-bg: #000000;
+    --sl-color-bg-nav: rgba(0, 0, 0, 0.6);
+    
+    /* Text & Foreground */
+    --sl-color-white: #ffffff;
+    --sl-color-gray-1: #ffffff;
+    --sl-color-gray-2: #e4e4e7; /* Zinc 200 */
+    --sl-color-gray-3: #a1a1aa; /* Zinc 400 */
+    --sl-color-gray-4: #71717a; /* Zinc 500 */
+    --sl-color-gray-5: #27272a; /* Zinc 800 */
+    --sl-color-gray-6: #0a0a0a; /* Card Background */
+
+    /* Accents (Primary Blue) */
+    --sl-color-accent-low: #1e3a8a;
+    --sl-color-accent: #3b82f6;
+    --sl-color-accent-high: #60a5fa;
+
+    /* Layout overrides: match RelayCraft main site max-width */
+    --sl-content-width: 1200px;
+    --sl-nav-bg: rgba(0, 0, 0, 0.6);
+    --sl-nav-backdrop-filter: blur(20px) saturate(180%);
+    --sl-color-hairline-light: rgba(255, 255, 255, 0.1);
+}
+
+/* Light Mode - Matching RelayCraft Main Site (Clean Light) */
+:root[data-theme='light'] {
+    --sl-color-white: #09090b; /* Text becomes dark */
+    --sl-color-bg: #ffffff;
+    --sl-color-bg-nav: rgba(255, 255, 255, 0.6);
+    
+    --sl-color-gray-1: #18181b;
+    --sl-color-gray-2: #27272a;
+    --sl-color-gray-3: #52525b;
+    --sl-color-gray-4: #a1a1aa;
+    --sl-color-gray-5: #e4e4e7;
+    --sl-color-gray-6: #f4f4f5;
+
+    --sl-color-accent-low: #bfdbfe;
+    --sl-color-accent: #2563eb;
+    --sl-color-accent-high: #1d4ed8;
+
+    --sl-nav-bg: rgba(255, 255, 255, 0.6);
+    --sl-nav-backdrop-filter: blur(20px) saturate(180%);
+    --sl-color-hairline-light: #e2e2e5;
+}
+
+/* Center Content & Navigation safely, simulating a max-width 1400px box on huge screens */
+@media (min-width: 1400px) {
+    :root {
+        --layout-gap: calc((100vw - 1400px) / 2);
+    }
+
+    /* Header background remains 100%, content shifts inward */
+    header.header {
+        padding-inline-start: calc(var(--sl-nav-pad-x) + var(--layout-gap)) !important;
+        padding-inline-end: calc(var(--sl-nav-pad-x) + var(--layout-gap)) !important;
+    }
+
+    /* Left Sidebar shifts right */
+    .sidebar-pane {
+        margin-inline-start: var(--layout-gap) !important;
+    }
+
+    /* Main body frame compresses from both sides */
+    .main-frame {
+        margin-inline-start: var(--layout-gap) !important;
+        margin-inline-end: var(--layout-gap) !important;
+    }
+
+    /* Right Sidebar fixed container shifts left and adjusts to not bleed */
+    .right-sidebar {
+        padding-inline-end: var(--layout-gap) !important;
+    }
+}
+
+/* Make the logo look nice */
+.site-title {
+    font-weight: 600 !important; /* Slightly lighter weight */
+    letter-spacing: -0.01em;
+    font-size: 1.1rem !important; /* Smaller font size */
+}
+
+/* Header Icons Styling - Neutral by default, Accent on hover */
+/* Social Icons (GitHub, Main Site) */
+.social-icons a {
+    color: var(--sl-color-gray-3) !important;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-icons a svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+.social-icons a:hover {
+    color: var(--sl-color-accent) !important;
+    transform: translateY(-1px);
+}
+
+/* Theme Select & Language Select Icons */
+starlight-theme-select select,
+starlight-lang-select select,
+starlight-theme-select svg,
+starlight-lang-select svg,
+.theme-select svg,
+.lang-select svg {
+    color: var(--sl-color-gray-3) !important;
+    transition: color 0.2s ease;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+}
+
+starlight-theme-select:hover select,
+starlight-lang-select:hover select,
+starlight-theme-select:hover svg,
+starlight-lang-select:hover svg,
+.theme-select:hover svg,
+.lang-select:hover svg {
+    color: var(--sl-color-accent) !important;
+}
+
+/* Ensure borders/separators are subtle */
+.social-icons::before {
+    background-color: var(--sl-color-gray-5) !important;
+}
+
+/* Beautiful gradient for the hero title */
+.hero h1 {
+    background: -webkit-linear-gradient(45deg, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Slight glow behind the hero image */
+.hero img {
+    filter: drop-shadow(0 0 3rem rgba(99, 102, 241, 0.4));
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Header Layout Adjustments */
+/* Target the search component to center it */
+site-search, starlight-search, .site-search {
+    margin-inline: auto;
+    max-width: 20rem; /* Limit width */
+    width: 100%;
+}
+
+/* Ensure the right group (social, theme, lang) stays on the right */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}

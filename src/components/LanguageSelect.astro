@@ -1,0 +1,39 @@
+---
+const { pathname } = Astro.url;
+const isZh = pathname.startsWith('/zh/') || pathname === '/zh';
+const targetPath = isZh 
+  ? pathname.replace(/^\/zh/, '') || '/'
+  : `/zh${pathname === '/' ? '' : pathname}`;
+
+const label = isZh ? 'English' : '简体中文';
+---
+
+<a href={targetPath} class="lang-toggle sl-flex" aria-label={label} title={label}>
+  <span class="lang-text">{isZh ? 'EN' : '中'}</span>
+</a>
+
+<style>
+  .lang-toggle {
+    text-decoration: none;
+    color: var(--sl-color-gray-3);
+    padding: 0.5rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    border-radius: 0.25rem;
+  }
+  
+  .lang-toggle:hover {
+    color: var(--sl-color-white);
+    background-color: var(--sl-color-gray-6);
+  }
+
+  .lang-text {
+    font-size: 0.875rem;
+  }
+
+  .sl-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

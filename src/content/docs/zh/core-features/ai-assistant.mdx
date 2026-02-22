@@ -1,0 +1,82 @@
+---
+title: AI 助手
+description: 利用 RelayCraft 内置的 AI 能力加速您的工作流。
+---
+
+import { Image } from 'astro:assets';
+import demoImage from '@assets/images/ai-demo.png';
+
+RelayCraft 是一个 **AI 原生 (AI-Native)** 的流量调试工具。与传统工具不同，它将大语言模型 (LLMs) 直接集成到工作流中，帮助您使用自然语言分析流量、生成规则和编写脚本。
+
+<Image src={demoImage} alt="AI 助手演示" style="border-radius: 8px; border: 1px solid var(--sl-color-gray-5);" />
+
+## 配置
+
+要使用 AI 功能，您需要配置一个 AI 提供商。
+
+1.  前往 **设置 > AI 助手**。
+2.  **启用 AI 功能**: 将开关切换为开启 (ON)。
+3.  **选择提供商**: 从支持的列表中选择：
+    -   OpenAI
+    -   Anthropic (Claude)
+    -   DeepSeek
+    -   Google (Gemini)
+    -   阿里云百炼 (Qwen)
+    -   月之暗面 (Moonshot AI)
+    -   OpenRouter
+    -   自定义 (兼容 OpenAI 格式，如 LocalAI, Ollama)
+4.  **API Key**: 输入您的 API 密钥。
+5.  **模型名称**: 选择或输入模型名称 (例如 `gpt-4o`, `claude-3-5-sonnet`, `deepseek-chat`)。
+
+:::tip[隐私说明]
+RelayCraft 直接与您配置的 AI 提供商通信。只有当您明确要求 AI 分析某个请求或生成规则时，您的流量数据才会被发送给 AI。
+:::
+
+## 核心能力
+
+### 1. 自然语言命令中心
+
+按下 `Ctrl+K` (macOS 上为 `Cmd+K`) 打开命令中心。您可以直接输入自然语言指令，而无需在菜单中寻找功能。
+
+**示例:**
+-   "分析此 POST 请求"
+-   "这条请求为什么没有命中规则"
+-   "清空流量列表"
+-   "开始监听"或"停止监听"
+
+### 2. 智能流量分析
+
+在 **流量监控** 中查看特定请求时，您可以让 AI 帮您分析。
+
+-   **解释错误**: "为什么这个请求失败了？"
+-   **分析结构**: "这个 JSON 响应的结构是什么？"
+-   **安全检查**: "这些 Header 中包含敏感 Token 吗？"
+
+### 3. 规则生成
+
+无需学习正则表达式或复杂的 UI 步骤即可创建修改规则。
+
+**在命令中心或聊天中输入:**
+-   "把所有发往 `example.com/api` 的请求映射到我的本地文件 `/Users/me/data.json`"
+-   "屏蔽所有来自 `adserver.com` 的图片"
+-   "让发往 `api.slow.com` 的请求延迟 2 秒"
+
+AI 将为您生成相应的规则配置，您只需确认并应用即可。
+
+### 4. 脚本生成
+
+RelayCraft 支持使用 Python 脚本进行高级拦截。AI 助手可以为您编写这些脚本。
+
+**提示示例:**
+-   "写一个脚本，给所有发往 `api.my-app.com` 的请求添加一个 `Authorization: Bearer <token>` 头部。"
+-   "创建一个脚本来修改响应体，将 `isAdmin` 字段的值从 'false' 改为 'true'。"
+
+AI 将使用 RelayCraft API 生成 Python 代码，您可以直接保存并运行。
+
+## 智能建议
+
+RelayCraft 提供上下文感知的智能建议：
+
+-   **正则助手**: 在编辑过滤器或规则时，AI 可以解释正则模式或根据描述生成正则（例如 "匹配 google.com 的任意子域名"）。
+-   **搜索助手**: 在流量列表的搜索框中，AI 可以帮助您将自然语言转换为复杂的过滤条件（例如输入 "耗时大于 500ms 的 POST 请求"，自动转换为 `method=POST && duration > 500`）。
+-   **命名助手**: 根据规则内容，自动建议具有描述性的名称。

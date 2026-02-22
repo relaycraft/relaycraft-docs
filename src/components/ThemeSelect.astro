@@ -1,0 +1,103 @@
+---
+---
+
+<theme-toggle>
+	<button type="button" id="theme-toggle" class="sl-flex" aria-label="Toggle theme" title="Toggle theme">
+		<span class="sr-only">Toggle theme</span>
+		<svg class="sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+			<path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+		</svg>
+		<svg class="moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+			<path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" />
+		</svg>
+	</button>
+</theme-toggle>
+
+<script>
+	class ThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			const button = this.querySelector('button');
+			
+			if (button) {
+				// Initialize state
+				this.updateIcon();
+				
+				// Add click listener
+				button.addEventListener('click', () => {
+					this.toggleTheme();
+				});
+			}
+		}
+
+		toggleTheme() {
+			const currentTheme = this.getCurrentTheme();
+			const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+			
+			// Update DOM
+			document.documentElement.setAttribute('data-theme', newTheme);
+			// Update Storage
+			localStorage.setItem('starlight-theme', newTheme);
+			
+			this.updateIcon();
+		}
+
+		getCurrentTheme() {
+			// Check document first, then storage, then default
+			return document.documentElement.getAttribute('data-theme') || 
+				   localStorage.getItem('starlight-theme') || 
+				   'dark';
+		}
+
+		updateIcon() {
+			const theme = this.getCurrentTheme();
+			const sun = this.querySelector('.sun');
+			const moon = this.querySelector('.moon');
+			
+			if (sun && moon) {
+				// In Dark mode, show Sun (to switch to Light)
+				// In Light mode, show Moon (to switch to Dark)
+				if (theme === 'dark') {
+					(sun as HTMLElement).style.display = 'block';
+					(moon as HTMLElement).style.display = 'none';
+				} else {
+					(sun as HTMLElement).style.display = 'none';
+					(moon as HTMLElement).style.display = 'block';
+				}
+			}
+		}
+	}
+	
+	if (!customElements.get('theme-toggle')) {
+		customElements.define('theme-toggle', ThemeToggle);
+	}
+</script>
+
+<style>
+	button {
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		padding: 0.5rem;
+		color: var(--sl-color-gray-3);
+		transition: color 0.2s, transform 0.2s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	button:hover {
+		color: var(--sl-color-white);
+		transform: scale(1.1);
+	}
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+</style>

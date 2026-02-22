@@ -1,0 +1,55 @@
+---
+title: RelayCraft Docs
+description: The next-generation, AI-native web traffic inspector documentation.
+template: splash 
+hero:
+  tagline: The Next-Gen AI-Native Network Debugging Proxy. Making traffic inspection, analysis, and mocking smarter and easier than ever.
+  image:
+    file: ../../assets/logo.svg
+  actions:
+    - text: Getting Started
+      link: /start-here/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View Core Concepts
+      link: /start-here/core-concepts/
+      icon: open-book
+      variant: secondary
+    - text: Visit Main Site
+      link: https://www.relaycraft.dev
+      icon: external
+      variant: minimal
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import FeatureCard from '../../components/FeatureCard.astro';
+
+## Discover Core Features
+
+<CardGrid>
+	<FeatureCard 
+		title="Traffic Monitor" 
+		description="Learn how to inspect HTTP, HTTPS, and WebSocket traffic with zero latency and rich analysis."
+		link="/core-features/traffic-monitor/"
+		icon="monitor"
+	/>
+	<FeatureCard 
+		title="Rules Engine" 
+		description="Master the visual rule builder to Map Local, Mock Responses, and Rewrite network traffic dynamically."
+		link="/core-features/rules-engine/"
+		icon="rules"
+	/>
+	<FeatureCard 
+		title="AI Assistant" 
+		description="Supercharge your workflow. Use natural language to filter, analyze, and generate interceptor scripts."
+		link="/core-features/ai-assistant/"
+		icon="ai"
+	/>
+	<FeatureCard 
+		title="Advanced Scripting" 
+		description="Write custom Python interceptors and extend RelayCraft using the robust Plugin Ecosystem."
+		link="/advanced-usage/python-scripting/"
+		icon="scripting"
+		text="Explore API"
+	/>
+</CardGrid>
