@@ -46,6 +46,16 @@ addons = [Addon()]
 -   `response(flow)`: Modify the response before it is returned to the client.
 -   `error(flow)`: Handle connection errors.
 
+#### WebSocket Events
+
+When a connection is upgraded to WebSocket, three additional hooks are available:
+
+-   `websocket_start(flow)`: Called once when the WebSocket handshake completes and the connection is established.
+-   `websocket_message(flow)`: Called for every frame. The latest frame is `flow.websocket.messages[-1]`.
+-   `websocket_end(flow)`: Called once when the connection closes.
+
+Use `websocket_start` and `websocket_end` to initialise and clean up per-connection state. Use `websocket_message` to inspect or modify individual frames.
+
 ## AI Script Assistant
 
 RelayCraft includes an **AI Script Assistant** to help you write code.
@@ -82,4 +92,56 @@ class RandomDelay:
             time.sleep(2) # Delay for 2 seconds
 
 addons = [RandomDelay()]
+```
+
+### 3. WebSocket — Track Per-Connection Stats
+
+```python
+import time
+from mitmproxy import http
+
+class WebSocketStats:
+    def __init__(self):
+        self._conns = {}
+
+    def websocket_start(self, flow: http.HTTPFlow):
+        self._conns[flow.id] = {"start": time.time(), "count": 0}
+
+    def websocket_message(self, flow: http.HTTPFlow):
+        msg = flow.websocket.messages[-1]
+        if flow.id in self._conns:
+            self._conns[flow.id]["count"] += 1
+        # Example: inject a debug field into JSON text frames from the server
+        if not msg.from_client and msg.is_text:
+            import json
+            try:
+                data = json.loads(msg.content)
+                data["__rc_seq"] = self._conns.get(flow.id, {}).get("count", 0)
+                msg.content = json.dumps(data)
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+    def websocket_end(self, flow: http.HTTPFlow):
+        info = self._conns.pop(flow.id, None)
+        if info:
+            duration = time.time() - info["start"]
+            print(f"[WS] {flow.request.host} — {info['count']} frames in {duration:.1f}s")
+
+addons = [WebSocketStats()]
+```
+
+### 4. WebSocket — Block Specific Frames
+
+```python
+from mitmproxy import http
+from mitmproxy.websocket import WebSocketMessage
+
+class WebSocketFilter:
+    def websocket_message(self, flow: http.HTTPFlow):
+        msg = flow.websocket.messages[-1]
+        # Drop any frame containing a sensitive keyword
+        if msg.is_text and "internal_token" in msg.content:
+            msg.drop()
+
+addons = [WebSocketFilter()]
 ```

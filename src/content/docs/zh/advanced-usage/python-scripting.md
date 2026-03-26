@@ -46,6 +46,16 @@ addons = [Addon()]
 -   `response(flow)`: 在响应返回给客户端之前修改它。
 -   `error(flow)`: 处理连接错误。
 
+#### WebSocket 事件
+
+当连接升级为 WebSocket 后，可使用以下三个额外的 Hook：
+
+-   `websocket_start(flow)`: 握手完成、连接建立时调用一次。
+-   `websocket_message(flow)`: 每条帧到达时调用。最新帧为 `flow.websocket.messages[-1]`。
+-   `websocket_end(flow)`: 连接关闭时调用一次。
+
+用 `websocket_start` 和 `websocket_end` 初始化和清理连接级别的状态，用 `websocket_message` 检查或修改每条帧。
+
 ## AI 脚本助手
 
 RelayCraft 包含一个 **AI 脚本助手** 来帮助您编写代码。
@@ -69,7 +79,7 @@ class Logger:
 addons = [Logger()]
 ```
 
-### 2. 随机延迟 (混沌工程)
+### 2. 随机延迟（混沌工程）
 
 ```python
 import time
@@ -82,4 +92,55 @@ class RandomDelay:
             time.sleep(2) # 延迟 2 秒
 
 addons = [RandomDelay()]
+```
+
+### 3. WebSocket — 追踪每连接统计
+
+```python
+import time
+from mitmproxy import http
+
+class WebSocketStats:
+    def __init__(self):
+        self._conns = {}
+
+    def websocket_start(self, flow: http.HTTPFlow):
+        self._conns[flow.id] = {"start": time.time(), "count": 0}
+
+    def websocket_message(self, flow: http.HTTPFlow):
+        msg = flow.websocket.messages[-1]
+        if flow.id in self._conns:
+            self._conns[flow.id]["count"] += 1
+        # 示例：向服务端下发的 JSON 文本帧注入调试字段
+        if not msg.from_client and msg.is_text:
+            import json
+            try:
+                data = json.loads(msg.content)
+                data["__rc_seq"] = self._conns.get(flow.id, {}).get("count", 0)
+                msg.content = json.dumps(data)
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+    def websocket_end(self, flow: http.HTTPFlow):
+        info = self._conns.pop(flow.id, None)
+        if info:
+            duration = time.time() - info["start"]
+            print(f"[WS] {flow.request.host} — 共 {info['count']} 条帧，耗时 {duration:.1f}s")
+
+addons = [WebSocketStats()]
+```
+
+### 4. WebSocket — 屏蔽特定帧
+
+```python
+from mitmproxy import http
+
+class WebSocketFilter:
+    def websocket_message(self, flow: http.HTTPFlow):
+        msg = flow.websocket.messages[-1]
+        # 丢弃包含敏感关键词的帧
+        if msg.is_text and "internal_token" in msg.content:
+            msg.drop()
+
+addons = [WebSocketFilter()]
 ```
