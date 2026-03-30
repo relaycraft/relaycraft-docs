@@ -9,7 +9,7 @@ RelayCraft 内置了一个 **MCP（Model Context Protocol）服务器**，让 AI
 
 ## 启用 MCP 服务器
 
-1. 打开 **设置 → 集成 → MCP 服务器**。
+1. 打开 **设置 → 外部集成**。
 2. 开启开关。RelayCraft 会在配置的端口（默认 `7090`）启动 HTTP 服务。
 3. 复制面板中显示的 **Bearer Token**，写操作需要用到它。
 
@@ -18,7 +18,7 @@ RelayCraft 内置了一个 **MCP（Model Context Protocol）服务器**，让 AI
 将 MCP 客户端指向：
 
 ```
-http://127.0.0.1:7090/mcp
+http://localhost:7090/mcp
 ```
 
 以 Claude Desktop 为例，在 `claude_desktop_config.json` 中添加：
@@ -27,7 +27,8 @@ http://127.0.0.1:7090/mcp
 {
   "mcpServers": {
     "relaycraft": {
-      "url": "http://127.0.0.1:7090/mcp",
+      "type": "http",
+      "url": "http://localhost:7090/mcp",
       "headers": {
         "Authorization": "Bearer <your-token>"
       }
@@ -106,6 +107,15 @@ search_flows(query="Bearer eyJ", search_in="header")
 | 参数 | 类型 | 说明 |
 |------|------|------|
 | `session_id` | string? | 目标会话。不填则使用当前活跃会话。 |
+
+#### `list_rules`
+
+列出所有规则的关键信息（ID、名称、类型、URL 匹配、启用状态、来源）。
+
+```
+list_rules()
+→ 用于后续 delete/toggle 等操作前先拿到 rule_id
+```
 
 ---
 

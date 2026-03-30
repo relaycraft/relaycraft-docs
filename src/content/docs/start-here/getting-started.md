@@ -29,7 +29,7 @@ To inspect traffic from your computer, you need to route your network traffic th
     -   Port: `9090` (or your configured port).
     -   Apply changes and switch to this profile when you want to inspect traffic.
 
--   **System Proxy**: Automatic system proxy configuration is not yet supported in the current version (planned for a future release). If you need to capture traffic from all applications, you need to manually configure the proxy server in your system settings:
+-   **System Proxy**: If you need to capture traffic from all applications, manually configure your OS proxy settings:
     -   Protocol: `HTTP`
     -   Server: `127.0.0.1`
     -   Port: `9090`

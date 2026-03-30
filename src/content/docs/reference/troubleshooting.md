@@ -9,8 +9,8 @@ description: Solutions to common issues with RelayCraft.
 This is the most common issue and usually means the RelayCraft **Root CA** is not properly installed or trusted.
 
 **Solution:**
-1.  Go to **Settings** > **Network**.
-2.  Click **Install Certificate**.
+1.  Open **Certificates** from the sidebar, or go to **Settings > Certificates**.
+2.  Click **Install & Trust Certificate**.
 3.  Follow the system prompts to add the certificate to your **System Keychain** (macOS) or **Trusted Root Certification Authorities** (Windows).
 4.  **Important**: On iOS/Android, you must also enable "Full Trust" for the installed certificate in your device settings.
 
@@ -43,7 +43,7 @@ If RelayCraft is consuming too much memory:
 -   Check **Scope**: Ensure the rule is enabled and the matching criteria (URL, Method) are correct.
 
 ### Python Script Errors
--   Check the **Script Logs** (accessed via **Settings** > **Troubleshooting** > **View System Logs**) for Python tracebacks.
+-   Check the **Script Logs** (via **Settings > Advanced > Troubleshooting > View System Logs**) for Python tracebacks.
 -   Ensure you have valid Python syntax.
 -   Remember to **Restart Proxy** after editing scripts.
 
@@ -52,7 +52,7 @@ If RelayCraft is consuming too much memory:
 RelayCraft provides a powerful built-in log query feature to help advanced users diagnose issues.
 
 **Access**:
-1.  Go to **Settings** > **Troubleshooting**.
+1.  Go to **Settings** > **Advanced**.
 2.  Click **View System Logs**.
 3.  (Optional) Enable **Verbose Mode** to log more detailed underlying core traffic logs.
 

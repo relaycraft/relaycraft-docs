@@ -18,7 +18,7 @@ RelayCraft includes a built-in **MCP (Model Context Protocol) server** that lets
 Configure your MCP client to point to:
 
 ```
-http://127.0.0.1:7090/mcp
+http://localhost:7090/mcp
 ```
 
 For Claude Desktop, add an entry to `claude_desktop_config.json`:
@@ -27,7 +27,8 @@ For Claude Desktop, add an entry to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "relaycraft": {
-      "url": "http://127.0.0.1:7090/mcp",
+      "type": "http",
+      "url": "http://localhost:7090/mcp",
       "headers": {
         "Authorization": "Bearer <your-token>"
       }
@@ -106,6 +107,15 @@ Aggregate statistics for a session — total flows, error rate, top domains, sta
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `session_id` | string? | Session to summarise. Omit for the active session. |
+
+#### `list_rules`
+
+List all rules with key fields (ID, name, type, URL pattern, enabled state, source).
+
+```
+list_rules()
+→ Rule list for follow-up actions like delete/toggle
+```
 
 ---
 
