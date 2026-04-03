@@ -23,20 +23,20 @@ Each rule consists of two main parts:
 
 RelayCraft provides six types of rules to handle network traffic:
 
-### 1. Content Rewrite
+### 1. Rewrite Body
 
-Modify the content of the Request Body or Response Body.
+Modify the content of the Request Body or Response Body. Supports full replacement or partial regex-based updates.
 
 -   **Target**: Choose to modify the **Request** (before sending) or **Response** (before returning to client).
--   **Modification Methods**:
-    -   **Set Content**: Directly enter new content to completely replace the original Body.
-    -   **Text Replace**: Simple string search and replace.
-    -   **Regex Replace**: Advanced content replacement using regular expressions.
-    -   **JSON Modification**: Targeted updates to JSON fields (e.g., set `data.vip` to `true`).
+-   **Modes**:
+    -   **Set**: Completely replace the original Body content.
+    -   **Replace**: Simple string search and replace.
+    -   **Regex**: Advanced content replacement using regular expressions.
+    -   **Status Only**: Modify the HTTP status code only, without touching the content.
 
 **Use Case**: Modifying API response data to test different UI states, or injecting parameters into a request.
 
-### 2. Header Rewrite
+### 2. Rewrite Header
 
 Modify Request Headers or Response Headers.
 
@@ -66,19 +66,18 @@ Redirect a request to a different URL.
 
 **Use Case**: Pointing production traffic to a staging server or development environment.
 
-### 5. Weak Network
+### 5. Throttling
 
 Simulate poor network conditions to test application robustness.
 
 -   **Delay**: Add latency to requests or responses (in milliseconds).
--   **Bandwidth Limit**: Restrict upload or download speeds.
--   **Packet Loss**: Simulate a percentage of packet loss.
+-   **Bandwidth**: Restrict upload or download speeds (in KB/s).
 
 **Use Case**: Testing app performance under slow, high-latency, or unstable network conditions.
 
-### 6. Request Blocking
+### 6. Block Request
 
-Directly block a request from being sent to the server, or simulate a request failure.
+Immediately intercept matched traffic, preventing it from reaching the server or simulating a mid-flight connection failure.
 
 -   **Behavior**:
     -   **Abort Connection**: Directly close the TCP connection to simulate a network error.

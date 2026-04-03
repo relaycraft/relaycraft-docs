@@ -1,11 +1,11 @@
 ---
-title: MCP 服务器
+title: 内置 MCP 服务
 description: 通过 Model Context Protocol 将 AI 助手接入 RelayCraft，实现流量查询、请求重放和规则管理。
 sidebar:
   order: 3
 ---
 
-RelayCraft 内置了一个 **MCP（Model Context Protocol）服务器**，让 AI 助手（如 Claude、Cursor 或任何兼容 MCP 的客户端）能够直接与代理会话交互。AI 可以在对话中查询捕获的流量、重放并修改请求、创建或切换规则，无需离开对话界面。
+RelayCraft 提供 **内置 MCP（Model Context Protocol）服务**，连接实时流量与 AI Agent 的桥梁。AI 助手（如 Claude Desktop、Cursor 或任何兼容 MCP 的客户端）能够直接“读懂”你的网络请求，并在对话中实现规则重写、流量分析和自动化调试。
 
 ## 启用 MCP 服务器
 

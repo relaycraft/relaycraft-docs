@@ -1,11 +1,11 @@
 ---
-title: MCP Server
+title: Built-in MCP Support
 description: Connect AI agents to RelayCraft via the Model Context Protocol to query traffic, replay requests, and manage rules programmatically.
 sidebar:
   order: 3
 ---
 
-RelayCraft includes a built-in **MCP (Model Context Protocol) server** that lets AI assistants — such as Claude, Cursor, or any MCP-compatible client — interact directly with your proxy session. The AI can query captured traffic, replay requests with modifications, and create or toggle rules, all from a natural language conversation.
+RelayCraft features **Built-in MCP (Model Context Protocol) Support**, providing a bridge between your live network traffic and AI agents. AI assistants like Claude Desktop, Cursor, or any MCP-compatible client can directly "see" your requests, allowing for real-time traffic analysis, automated rule creation, and interactive debugging.
 
 ## Enabling the MCP Server
 
