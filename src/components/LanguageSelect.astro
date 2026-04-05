@@ -8,7 +8,7 @@ const targetPath = isZh
 const label = isZh ? 'English' : '简体中文';
 ---
 
-<a href={targetPath} class="lang-toggle sl-flex" aria-label={label} title={label}>
+<a href={targetPath} class="lang-toggle sl-flex" aria-label={label} title={label} onclick={`localStorage.setItem('preferred-language', '${isZh ? 'en' : 'zh'}')`}>
   <span class="lang-text">{isZh ? 'EN' : '中'}</span>
 </a>
 

@@ -7,3 +7,51 @@ import SpeedInsights from "@vercel/speed-insights/astro";
 <DefaultHead />
 <Analytics />
 <SpeedInsights />
+<script is:inline>
+  // Handle Theme Synchronization
+  (function() {
+    try {
+      const siteTheme = localStorage.getItem('theme');
+      const docsTheme = localStorage.getItem('starlight-theme');
+      if (siteTheme && (!docsTheme || docsTheme !== siteTheme)) {
+        localStorage.setItem('starlight-theme', siteTheme);
+        document.documentElement.setAttribute('data-theme', siteTheme);
+      }
+    } catch (e) {}
+  })();
+
+  // Handle Language Synchronization
+  (function() {
+    try {
+      const path = window.location.pathname;
+      const isZhPath = path.startsWith('/zh/') || path === '/zh';
+      
+      const pref = localStorage.getItem('preferred-language');
+      let targetLang = pref;
+      
+      if (!targetLang) {
+        const languages = window.navigator.languages || [window.navigator.language];
+        for (const lang of languages) {
+          if (lang.startsWith('zh')) {
+            targetLang = 'zh';
+            break;
+          }
+          if (lang.startsWith('en')) {
+            targetLang = 'en';
+            break;
+          }
+        }
+      }
+      targetLang = targetLang || 'en';
+
+      if (targetLang === 'zh' && !isZhPath) {
+        window.location.replace('/zh' + (path === '/' ? '' : path) + window.location.search + window.location.hash);
+      } else if (targetLang === 'en' && isZhPath) {
+        window.location.replace((path.replace(/^\/zh/, '') || '/') + window.location.search + window.location.hash);
+      }
+    } catch (e) {
+      // Ignore errors
+    }
+  })();
+</script>
+

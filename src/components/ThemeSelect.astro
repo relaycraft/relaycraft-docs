@@ -37,6 +37,7 @@
 			// Update DOM
 			document.documentElement.setAttribute('data-theme', newTheme);
 			// Update Storage
+			localStorage.setItem('theme', newTheme);
 			localStorage.setItem('starlight-theme', newTheme);
 			
 			this.updateIcon();
@@ -46,6 +47,7 @@
 			// Check document first, then storage, then default
 			return document.documentElement.getAttribute('data-theme') || 
 				   localStorage.getItem('starlight-theme') || 
+				   localStorage.getItem('theme') || 
 				   'dark';
 		}
 
