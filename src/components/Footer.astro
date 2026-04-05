@@ -5,14 +5,22 @@ import type { Props } from '@astrojs/starlight/props';
 const { lang } = Astro.props;
 const isZh = lang === 'zh';
 
-const textCrafted = isZh ? 'RelayCraft 团队用心打造 ❤️。' : 'RelayCraft Team. Crafted with ❤️.';
+const textRights = isZh ? '保留所有权利。' : 'All rights reserved.';
+const textMainSite = isZh ? '返回主站' : 'Main Site';
 ---
 
 <Default {...Astro.props} />
 
 <footer class="relaycraft-footer">
 	<div class="footer-inner">
-		<p>© {new Date().getFullYear()} {textCrafted}</p>
+		<div class="footer-links">
+			<a href="https://www.relaycraft.dev">{textMainSite}</a>
+			<span class="separator">•</span>
+			<a href="https://github.com/relaycraft/relaycraft" target="_blank" rel="noopener noreferrer">GitHub</a>
+			<span class="separator">•</span>
+			<a href="mailto:support@relaycraft.dev">Email</a>
+		</div>
+		<p>© {new Date().getFullYear()} RelayCraft. {textRights}</p>
 	</div>
 </footer>
 
@@ -31,6 +39,27 @@ const textCrafted = isZh ? 'RelayCraft 团队用心打造 ❤️。' : 'RelayCra
     color: var(--sl-color-gray-4);
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
+}
+
+.footer-links {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.footer-links a {
+	color: var(--sl-color-gray-3);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+	color: var(--sl-color-accent);
+}
+
+.separator {
+	color: var(--sl-color-gray-5);
 }
 </style>

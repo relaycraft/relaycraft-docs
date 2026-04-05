@@ -82,14 +82,15 @@
 		cursor: pointer;
 		padding: 0.5rem;
 		color: var(--sl-color-gray-3);
-		transition: color 0.2s, transform 0.2s;
+		transition: color 0.2s ease, background-color 0.2s ease;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		border-radius: 0.375rem; /* Match main site rounded-md */
 	}
 	button:hover {
 		color: var(--sl-color-white);
-		transform: scale(1.1);
+		background-color: var(--sl-color-gray-6); /* Match main site hover:bg-accent */
 	}
 	.sr-only {
 		position: absolute;

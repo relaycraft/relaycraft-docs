@@ -9,7 +9,8 @@ const label = isZh ? 'English' : '简体中文';
 ---
 
 <a href={targetPath} class="lang-toggle sl-flex" aria-label={label} title={label} onclick={`localStorage.setItem('preferred-language', '${isZh ? 'en' : 'zh'}')`}>
-  <span class="lang-text">{isZh ? 'EN' : '中'}</span>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-languages"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg>
+  <span class="lang-text">{isZh ? 'EN' : 'ZH'}</span>
 </a>
 
 <style>
@@ -18,22 +19,36 @@ const label = isZh ? 'English' : '简体中文';
     color: var(--sl-color-gray-3);
     padding: 0.5rem;
     font-weight: 500;
-    transition: color 0.2s;
-    border-radius: 0.25rem;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    border-radius: 0.375rem; /* Match main site rounded-md */
+    gap: 0.5rem;
   }
   
   .lang-toggle:hover {
     color: var(--sl-color-white);
-    background-color: var(--sl-color-gray-6);
+    background-color: var(--sl-color-gray-6); /* Match main site hover:bg-accent */
+  }
+
+  .lang-toggle svg {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   .lang-text {
-    font-size: 0.875rem;
+    font-size: 0.75rem; /* match main site text-xs */
+    font-weight: 700;   /* match main site font-bold */
   }
 
   .sl-flex {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* Hide text on small screens, like main site */
+  @media (max-width: 640px) {
+    .lang-text {
+      display: none;
+    }
   }
 </style>
