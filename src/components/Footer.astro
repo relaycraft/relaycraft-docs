@@ -1,7 +1,5 @@
 ---
 import Default from '@astrojs/starlight/components/Footer.astro';
-import type { Props } from '@astrojs/starlight/props';
-
 const { lang } = Astro.props;
 const isZh = lang === 'zh';
 
@@ -14,7 +12,7 @@ const textMainSite = isZh ? '返回主站' : 'Main Site';
 <footer class="relaycraft-footer">
 	<div class="footer-inner">
 		<div class="footer-links">
-			<a href="https://www.relaycraft.dev">{textMainSite}</a>
+			<a href="https://relaycraft.dev">{textMainSite}</a>
 			<span class="separator">•</span>
 			<a href="https://github.com/relaycraft/relaycraft" target="_blank" rel="noopener noreferrer">GitHub</a>
 			<span class="separator">•</span>

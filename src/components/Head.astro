@@ -2,9 +2,12 @@
 import DefaultHead from "@astrojs/starlight/components/Head.astro";
 import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
+
+const noIndex = Astro.url.pathname.includes('/404') || Astro.url.pathname.includes('/search');
 ---
 
 <DefaultHead />
+{noIndex && <meta name="robots" content="noindex, nofollow" />}
 <Analytics />
 <SpeedInsights />
 <script is:inline>

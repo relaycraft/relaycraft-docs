@@ -1,11 +1,13 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://docs.relaycraft.dev',
 	output: 'static',
 	adapter: vercel({
 		webAnalytics: {
@@ -14,6 +16,7 @@ export default defineConfig({
 	}),
 	integrations: [
 		react(),
+		sitemap(),
 		starlight({
 			title: 'RelayCraft',
 			defaultLocale: 'root',
@@ -43,7 +46,7 @@ export default defineConfig({
 			social: [
 				{
 					label: 'Main Site',
-					href: 'https://www.relaycraft.dev',
+					href: 'https://relaycraft.dev',
 					icon: 'rocket',
 				},
 				{
