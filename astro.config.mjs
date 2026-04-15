@@ -67,6 +67,11 @@ export default defineConfig({
 					autogenerate: { directory: 'core-features' },
 				},
 				{
+					label: 'Guides',
+					translations: { zh: '指南' },
+					autogenerate: { directory: 'guides' },
+				},
+				{
 					label: 'Advanced Usage',
 					translations: { zh: '高级用法' },
 					autogenerate: { directory: 'advanced-usage' },
