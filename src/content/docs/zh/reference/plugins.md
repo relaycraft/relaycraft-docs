@@ -3,6 +3,12 @@ title: 插件与 API
 description: RelayCraft 插件模型、能力边界、API 契约与权限模型的一体化参考。
 ---
 
+:::tip[插件开发指南]
+完整的插件开发指南（包括目录结构、清单文件、构建模式、示例代码）请查看 [CONTRIBUTING.md](https://github.com/relaycraft/relaycraft-plugins/blob/main/CONTRIBUTING.zh-CN.md)。
+
+如需更新本文档，请先参考上述源文件中的最新内容。
+:::
+
 本页是 RelayCraft 插件能力与 `RelayCraft.api` 的统一参考页。
 
 ## 插件可扩展范围

@@ -3,6 +3,12 @@ title: Plugins & API
 description: Unified reference for RelayCraft plugin model, capabilities, API contracts, and permissions.
 ---
 
+:::tip[Plugin Development Guide]
+For the complete plugin development guide (including directory structure, manifest, build mode, and code examples), see [CONTRIBUTING.md](https://github.com/relaycraft/relaycraft-plugins/blob/main/CONTRIBUTING.md).
+
+When updating this page, please refer to the source file above for the latest content.
+:::
+
 This page is the unified reference for RelayCraft plugin capabilities and `RelayCraft.api`.
 
 ## What Plugins Can Extend
