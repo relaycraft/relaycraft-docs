@@ -9,9 +9,9 @@ RelayCraft 提供 **内置 MCP（Model Context Protocol）服务**，连接实�
 
 ## 启用 MCP 服务器
 
-1. 打开 **设置 → 外部集成**。
+1. 打开 **设置 → MCP**。
 2. 开启开关。RelayCraft 会在配置的端口（默认 `7090`）启动 HTTP 服务。
-3. 复制面板中显示的 **Bearer Token**，写操作需要用到它。
+3. 复制面板中显示的 **Bearer Token**，工具调用都需要用到它。
 
 ## 连接客户端
 
@@ -39,11 +39,13 @@ http://localhost:7090/mcp
 
 服务器使用 **JSON-RPC 2.0 over HTTP POST**，遵循 MCP 协议规范（`2024-11-05`）。
 
+## 认证
+
+所有 `tools/call` 请求都需要携带 **`Authorization: Bearer <token>`** 头——包括只读工具。仅协议握手方法（`initialize`、`ping`、`notifications/*`、`tools/list`）无需令牌。令牌在本地生成，保存在应用配置目录（`mcp-token`），可在 **设置 → MCP** 中查看。每一次工具调用（包括失败）都会记入本地审计日志（**设置 → 安全与隐私**）。
+
 ## 可用工具
 
 ### 只读工具
-
-这些工具无需认证，可安全暴露给任何 MCP 客户端。
 
 #### `list_sessions`
 
@@ -120,8 +122,6 @@ list_rules()
 ---
 
 ### 写操作工具
-
-写操作工具需要在请求头中携带 **`Authorization: Bearer <token>`**。
 
 #### `replay_request`
 

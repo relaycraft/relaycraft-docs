@@ -48,6 +48,17 @@ You can access the settings panel by clicking the **Settings (gear)** icon in th
 -   **Installed**: Manage your active plugins.
 -   **Install from File**: Install plugin packages directly from local files.
 
+## Security & Privacy
+
+A single page that summarizes what RelayCraft exposes and what it sends out.
+
+-   **Reachability**: Tiles for every entry point — Proxy port, Share service, MCP server, upstream certificate verification, AI service, and enabled plugins — each with a status hint so you can see what is reachable from other devices and what needs attention.
+-   **AI Key & Usage**: Which AI provider keys are configured and how much each has been used.
+-   **Sent to AI**: A reviewable record of the data RelayCraft has sent to AI providers, so you can verify nothing unexpected left the machine.
+-   **Audit Log**: Searchable local log of security-relevant events — configuration changes, plugin installs and calls, certificate operations, AI calls, rule changes, snapshot import/export, and MCP tool activity — each tagged with its actor (user, plugin, MCP, AI, or system).
+-   **Plugin Permissions**: The permissions each installed plugin has declared, with high-risk ones highlighted.
+-   **Config Snapshot**: Export your full configuration to a snapshot file (secrets filtered out) or import one back — the app previews what will change, checks machine binding, and lets you apply or cancel.
+
 ## Advanced & About
 
 -   **View System Logs**: Open the built-in log viewer for Proxy/System/Script/Plugin/Crash logs.

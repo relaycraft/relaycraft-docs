@@ -16,7 +16,7 @@ This page is the unified reference for RelayCraft plugin capabilities and `Relay
 - Left sidebar pages (`api.ui.registerPage`)
 - Standard UI slots (`api.ui.registerSlot`)
 - Traffic context menu actions (`api.ui.registerContextMenuItem`)
-- Rule automation (`api.rules.createMock`)
+- Rule automation — create, edit, and disable mocks the plugin owns (`api.rules.createMock`, `getOwnMock`, `disableMock`)
 - Traffic analytics (`api.traffic.listFlows`, `api.traffic.getFlow`)
 - Runtime-aware dashboards (`api.host.getRuntime`)
 
@@ -59,43 +59,45 @@ Restricted API calls are blocked unless the permission is declared in `permissio
 
 | API Method | Required Permission |
 | :--- | :--- |
+| `ai.chat`, `ai.chatStream` | `ai:chat` |
+| `http.send` | `network:outbound` |
+| `proxy.getStatus` | `proxy:read` |
 | `stats.getProcessStats` | `stats:read` |
-| `rules.list` | `rules:read` |
-| `rules.get` | `rules:read` |
-| `rules.createMock` | `rules:write` |
-| `traffic.listFlows` | `traffic:read` |
-| `traffic.getFlow` | `traffic:read` |
+| `storage.get`, `storage.list` | `storage:read` |
+| `storage.set`, `storage.delete`, `storage.clear` | `storage:write` |
+| `rules.list`, `rules.get` | `rules:read` |
+| `rules.createMock`, `rules.disableMock`, `rules.getOwnMock` | `rules:write` |
+| `traffic.listFlows`, `traffic.getFlow` | `traffic:read` |
 
-`host.getRuntime` does not require additional permission.
+`host.getRuntime` and `ui`/`theme`/`i18n`/`log`/`events`/`settings` calls do not require additional permission.
 
 ## Namespace Overview
 
 ### i18n
 
 - `t(key, options?)`
-- `changeLanguage(lng)`
-- `getCurrentLanguage()`
+- `language`
+- `onLanguageChange(callback)` — returns an unsubscribe function
+- `registerLocale(lang, resources)`
 
 ### theme
 
 - `register(theme)`
-- `remove(themeName)`
-- `list()`
+- `set(themeId)`
 
 ### ui
 
 - `registerPage(page)`
-- `unregisterPage(pageId)`
-- `registerSlot(slotName, component, props?)`
-- `unregisterSlot(slotId)`
-- `registerContextMenuItem(item)`
-- `unregisterContextMenuItem(itemId)`
+- `registerSlot(slotId, options)` — `options.component`
+- `registerContextMenuItem(config)`
 - `toast(message, type?)`
+- `components` — shared host components: `Editor`, `DiffEditor`, `Markdown`
 
 ### ai
 
 - `chat(messages)`
-- `complete(prompt, options?)`
+- `chatStream(messages, onChunk, options?)`
+- `isEnabled()`
 
 ### stats
 
@@ -104,22 +106,16 @@ Restricted API calls are blocked unless the permission is declared in `permissio
 ### proxy
 
 - `getStatus()`
-- `start()`
-- `stop()`
-- `restart()`
 
 ### settings
 
-- `get(key?)`
-- `set(key, value)`
-- `watch(key, cb)`
+- `get(key?)` — read the plugin's own settings
 
 ### log
 
 - `info(message, context?)`
 - `warn(message, context?)`
-- `error(message, context?)`
-- `debug(message, context?)`
+- `error(message, error?)`
 
 ### http
 
@@ -129,21 +125,21 @@ Restricted API calls are blocked unless the permission is declared in `permissio
 
 - `get(key)`
 - `set(key, value)`
-- `remove(key)`
+- `delete(key)`
+- `list(prefix?)`
 - `clear()`
-- `list()`
 
 ### events
 
-- `on(eventName, callback)`
-- `off(eventName, callback)`
-- `emit(eventName, payload)`
+- `on(eventName, callback)` — returns an unsubscribe function
 
 ### rules
 
 - `list(filter?)`
 - `get(id)`
-- `createMock(config)`
+- `createMock(config)` — returns the new rule ID
+- `getOwnMock(ruleId)` — fetch a mock this plugin created, for editing
+- `disableMock(ruleId)` — disable a mock this plugin created
 
 ### traffic
 

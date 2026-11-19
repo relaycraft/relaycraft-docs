@@ -8,6 +8,7 @@ The Traffic Monitor is the central hub of RelayCraft, providing a real-time view
 ## Main Interface
 
 The traffic view displays a list of network requests with key information:
+-   **Source**: The app or process that made the request, shown as an icon (real app marks for known browsers and tools). Hover to see the process name and PID.
 -   **Method**: HTTP method (GET, POST, etc.).
 -   **Status**: HTTP status code (200, 404, 500, etc.) with color coding.
 -   **Host & Path**: The destination server and resource path.
@@ -30,12 +31,21 @@ Type any text to match against the URL, method, or status code.
 RelayCraft supports powerful advanced search syntax for precise traffic filtering.
 
 **Keywords**:
--   `method:POST` - Only show POST requests.
--   `status:4xx` - Show requests with status codes 400-499 (supports `2xx`, `3xx`, `4xx`, `5xx`).
--   `type:json` - Show requests with Content-Type as JSON.
--   `size:>1mb` - Show requests with response body larger than 1MB (supports `kb`, `mb`).
--   `duration:>500ms` - Show requests taking longer than 500ms (supports `ms`, `s`).
--   `-domain:google` - Exclude requests where the domain contains "google".
+-   `method:POST` - Only show POST requests (alias `m:`).
+-   `status:4xx` - Show requests with status codes 400-499 (supports `2xx`, `3xx`, `4xx`, `5xx`; alias `s:`).
+-   `status:4xx,5xx` - Comma-separated union inside a single keyword.
+-   `domain:api` - Substring match on the host (aliases `d:`, `host:`).
+-   `source:chrome` - Match the traffic source: client IP, app name, or process name (alias `src:`).
+-   `process:curl` - Match the local process name exactly (alias `proc:`).
+-   `pid:4321` - Match the exact process ID.
+-   `ip:192.168` - Match client or server IP.
+-   `type:json` - Show requests with Content-Type as JSON (alias `t:`).
+-   `header:authorization` - Match header names or values; `header:key:value` matches a specific header (alias `h:`).
+-   `body:token` - Search inside response bodies (alias `resbody:`).
+-   `reqbody:email` - Search inside request bodies (alias `rb:`).
+-   `size:>1mb` - Show requests with response body larger than 1MB (supports `kb`, `mb`, `gb`; alias `sz:`).
+-   `duration:>500ms` - Show requests taking longer than 500ms (supports `ms`, `s`, `m`; alias `dur:`).
+-   `-domain:google` - Exclude requests where the domain contains "google" (also `!domain:google`).
 
 **Query Logic**:
 -   **Intersection (AND)**: Separate different conditions with spaces.
@@ -56,6 +66,16 @@ RelayCraft supports powerful advanced search syntax for precise traffic filterin
 Click the **AI Assistant** icon in the filter bar to generate filter patterns using natural language.
 -   Example: *"Show me all failed POST requests to api.example.com"*
 
+## Capture Scope
+
+Filtering changes what you *see*. Capture scope changes what gets *recorded*. Click the **Capture scope** button next to the filter bar to limit capture to specific processes:
+
+-   **Include**: Comma-separated process names — only traffic from these processes is recorded.
+-   **Exclude**: Comma-separated process names — traffic from these processes is dropped.
+-   **Recent processes**: One-click suggestions built from recently observed sources.
+
+Scope applies at the engine level, so excluded traffic never reaches the session. To quickly scope to a single app, right-click any flow and choose **Record only `<process>`**.
+
 ## Flow Details
 
 Clicking on any request in the list opens the **Flow Detail** panel on the right.
@@ -69,7 +89,11 @@ Clicking on any request in the list opens the **Flow Detail** panel on the right
 
 ### Overview
 -   **Timing**: Detailed breakdown of the request lifecycle (DNS, TCP, SSL, TTFB, Download).
--   **General**: Protocol version, TLS version, and connection details.
+-   **General**: Protocol version, TLS version, connection details, and the source process/app attribution.
+
+### Diagnostic Package
+
+From the flow detail panel you can export a **metadata-only diagnostic package** — a sanitized snapshot of the flow (timing, headers, rule hits, engine state) designed to be shared when asking for help. Request/response bodies are never included.
 
 ## Context Actions
 
@@ -80,6 +104,7 @@ Right-click on any request to access quick actions:
 -   **Compose**: Edit the request in the Composer before sending.
 -   **Create Rule**: Quickly create a Map Local or Rewrite rule based on this request.
 -   **Add Breakpoint**: Stop future requests matching this URL to modify them on the fly.
+-   **Record Only `<process>`**: Apply a capture scope that records only the process that produced this flow.
 
 ## Breakpoints
 

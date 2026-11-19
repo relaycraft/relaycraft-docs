@@ -9,9 +9,9 @@ RelayCraft features **Built-in MCP (Model Context Protocol) Support**, providing
 
 ## Enabling the MCP Server
 
-1. Open **Settings → Integrations → MCP Server**.
+1. Open **Settings → MCP**.
 2. Toggle it on. RelayCraft starts an HTTP server on the configured port (default `7090`).
-3. Copy the **Bearer token** shown in the panel — you'll need it for write operations.
+3. Copy the **Bearer token** shown in the panel — tool calls require it.
 
 ## Connecting a Client
 
@@ -39,11 +39,13 @@ For Claude Desktop, add an entry to `claude_desktop_config.json`:
 
 The server uses **JSON-RPC 2.0** over HTTP POST and follows the MCP protocol spec (`2024-11-05`).
 
+## Authentication
+
+All `tools/call` requests require the **`Authorization: Bearer <token>`** header — read tools included. Only protocol handshake methods (`initialize`, `ping`, `notifications/*`, `tools/list`) are reachable without a token. The token is generated locally, stored in the app config directory (`mcp-token`), and shown in **Settings → MCP**. Every tool call — including failures — is recorded in the local audit log (**Settings → Security & Privacy**).
+
 ## Available Tools
 
 ### Read Tools
-
-These tools do not require authentication and are safe to expose to any MCP client.
 
 #### `list_sessions`
 
@@ -120,8 +122,6 @@ list_rules()
 ---
 
 ### Write Tools
-
-Write tools require the **`Authorization: Bearer <token>`** header.
 
 #### `replay_request`
 

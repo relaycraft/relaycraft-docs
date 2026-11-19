@@ -16,7 +16,7 @@ description: RelayCraft 插件模型、能力边界、API 契约与权限模型�
 - 左侧导航页面（`api.ui.registerPage`）
 - 标准 UI 插槽（`api.ui.registerSlot`）
 - 流量右键菜单动作（`api.ui.registerContextMenuItem`）
-- 规则自动化（`api.rules.createMock`）
+- 规则自动化——创建、编辑、停用插件自己拥有的 mock（`api.rules.createMock`、`getOwnMock`、`disableMock`）
 - 流量分析（`api.traffic.listFlows`、`api.traffic.getFlow`）
 - 运行时状态感知（`api.host.getRuntime`）
 
@@ -59,43 +59,45 @@ capabilities:
 
 | API 方法 | 所需权限 |
 | :--- | :--- |
+| `ai.chat`、`ai.chatStream` | `ai:chat` |
+| `http.send` | `network:outbound` |
+| `proxy.getStatus` | `proxy:read` |
 | `stats.getProcessStats` | `stats:read` |
-| `rules.list` | `rules:read` |
-| `rules.get` | `rules:read` |
-| `rules.createMock` | `rules:write` |
-| `traffic.listFlows` | `traffic:read` |
-| `traffic.getFlow` | `traffic:read` |
+| `storage.get`、`storage.list` | `storage:read` |
+| `storage.set`、`storage.delete`、`storage.clear` | `storage:write` |
+| `rules.list`、`rules.get` | `rules:read` |
+| `rules.createMock`、`rules.disableMock`、`rules.getOwnMock` | `rules:write` |
+| `traffic.listFlows`、`traffic.getFlow` | `traffic:read` |
 
-`host.getRuntime` 不需要额外权限。
+`host.getRuntime` 以及 `ui`/`theme`/`i18n`/`log`/`events`/`settings` 调用不需要额外权限。
 
 ## 命名空间总览
 
 ### i18n
 
 - `t(key, options?)`
-- `changeLanguage(lng)`
-- `getCurrentLanguage()`
+- `language`
+- `onLanguageChange(callback)`——返回取消订阅函数
+- `registerLocale(lang, resources)`
 
 ### theme
 
 - `register(theme)`
-- `remove(themeName)`
-- `list()`
+- `set(themeId)`
 
 ### ui
 
 - `registerPage(page)`
-- `unregisterPage(pageId)`
-- `registerSlot(slotName, component, props?)`
-- `unregisterSlot(slotId)`
-- `registerContextMenuItem(item)`
-- `unregisterContextMenuItem(itemId)`
+- `registerSlot(slotId, options)`——`options.component`
+- `registerContextMenuItem(config)`
 - `toast(message, type?)`
+- `components`——宿主共享组件：`Editor`、`DiffEditor`、`Markdown`
 
 ### ai
 
 - `chat(messages)`
-- `complete(prompt, options?)`
+- `chatStream(messages, onChunk, options?)`
+- `isEnabled()`
 
 ### stats
 
@@ -104,22 +106,16 @@ capabilities:
 ### proxy
 
 - `getStatus()`
-- `start()`
-- `stop()`
-- `restart()`
 
 ### settings
 
-- `get(key?)`
-- `set(key, value)`
-- `watch(key, cb)`
+- `get(key?)`——读取插件自身的设置
 
 ### log
 
 - `info(message, context?)`
 - `warn(message, context?)`
-- `error(message, context?)`
-- `debug(message, context?)`
+- `error(message, error?)`
 
 ### http
 
@@ -129,21 +125,21 @@ capabilities:
 
 - `get(key)`
 - `set(key, value)`
-- `remove(key)`
+- `delete(key)`
+- `list(prefix?)`
 - `clear()`
-- `list()`
 
 ### events
 
-- `on(eventName, callback)`
-- `off(eventName, callback)`
-- `emit(eventName, payload)`
+- `on(eventName, callback)`——返回取消订阅函数
 
 ### rules
 
 - `list(filter?)`
 - `get(id)`
-- `createMock(config)`
+- `createMock(config)`——返回新规则 ID
+- `getOwnMock(ruleId)`——获取本插件创建的 mock，用于编辑
+- `disableMock(ruleId)`——停用本插件创建的 mock
 
 ### traffic
 
